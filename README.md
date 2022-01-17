@@ -25,3 +25,6 @@ die nur mit Hilfe eines Flachbandkabels verbunden werden müssen.
 - EPD.h <br>
 das ist die original WaveShare Library um das Display anzusteuern. <br>
 esp32-waveshare-epd siehe: https://www.waveshare.com/wiki/E-Paper_ESP32_Driver_Board
+
+## 3D-STL Files:
+Die 3D-STL Druckdateien liegen auf: https://www.thingiverse.com/thing:5204499
