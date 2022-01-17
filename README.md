@@ -15,6 +15,6 @@
 ![fertiges Gerät](ansicht03.jpg) 
 
 ## Arduino Library:
-- EPD.h//
-das ist die original WaveShare Library um das Display anzusteuern.//
+- EPD.h\\
+das ist die original WaveShare Library um das Display anzusteuern.\\
 esp32-waveshare-epd siehe: https://www.waveshare.com/wiki/E-Paper_ESP32_Driver_Board
