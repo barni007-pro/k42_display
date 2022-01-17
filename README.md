@@ -1,5 +1,10 @@
 # k42_display (e-paper-Kalender)
-## Kalender auf WaveShare e-paper-Display:
+## Kalender auf WaveShare e-paper-Display mit ESP32 Driver Board:
+Dieses Projekt basiert auf Arduino und läuft auf einem ESP32 Mikrocontroller. <br>
+Es ist sehr einfach aufzubauen, da das Projekt fertige Komponenten verwendet, <br>
+die nur mit Hilfe eines Flachbandkabels verbunden werden müssen.
+
+## Funktionen:
  - Anzeige der Feiertage
  - Anzeige von Geburtstagen oder anderen Jahrestagen
  - Konfiguration über WEB-Interface
