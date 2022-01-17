@@ -5,7 +5,9 @@
  - Konfiguration über WEB-Interface
  - OTA Update
 
-![fertiges Gerät](ansicht01.jpg) 
+![fertiges Gerät](ansicht01.jpg) <br>
+![fertiges Gerät](ansicht04.jpg) <br>
+![fertiges Gerät](ansicht05.jpg)
 
 ## Hardware:
 - Waveshare Universal e-Paper Raw Panel Driver Board, ESP32
