@@ -23,6 +23,7 @@ die nur mit Hilfe eines Flachbandkabels verbunden werden müssen.
 
 ## Arduino Library:
 - EPD.h <br>
+
 das ist die original WaveShare Library um das Display anzusteuern. <br>
 esp32-waveshare-epd siehe: https://www.waveshare.com/wiki/E-Paper_ESP32_Driver_Board
 
