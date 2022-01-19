@@ -26,7 +26,7 @@ const char WeekDays[][3] = {"Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"}; // Abkuer
 const String MonthName[] = {"Januar","Februar","Maerz","April","Mai","Juni","Juli","August","September","Oktober","Novembar","Dezember"};
 const String html1 ="<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"><title>Iot Display Configuration</title><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><link rel=\"stylesheet\" href=\"style.css\"></head><body><label for=\"show-menu\" class=\"show-menu\">Show Menu</label><input type=\"checkbox\" id=\"show-menu\"><ul id=\"menu\"><li><a href=\"index.html\">Home</a></li><li><a href=\"config.html\">Configuration</a></li><li><a href=\"wifi.html\">WIFI</a></li><li><a href=\"reboot.html\">Reboot</a></li></ul><br><br><br><fieldset>";
 const String HW_Version = "Display 001";                               //Hardware Version old
-const String SW_Version = "A1.00.03";                                  //Software Version
+const String SW_Version = "A1.00.04";                                  //Software Version
 
 //System Variablen
 UBYTE *BlackImage, *RYImage;                                           // Red or Yellow Image
@@ -273,22 +273,20 @@ void draw_cal(uint16_t y, uint8_t m, uint8_t d)
     }    
   } 
   Paint_SelectImage(RYImage);
-  //String str1 = MonthName[m - 1] + " " + String(y) + " W" + String(GetWeekNumber(y, m, d));
-  //const char* str2 = str1.c_str();
-  //Paint_DrawString_EN(20, 0, str2, &Font24, WHITE, BLACK);
-  Paint_DrawString_EN(20, 0, MonthName[m - 1].c_str(), &Font24, WHITE, BLACK);
+  Paint_DrawString_EN(20, 7, MonthName[m - 1].c_str(), &Font24, BLACK, WHITE);
   
-  Paint_SelectImage(BlackImage);
-  String str1 = String(y) + " Woche-" + String(GetWeekNumber(y, m, d));
-  Paint_DrawString_EN(20, 24, str1.c_str(), &Font12, WHITE, BLACK);
+  Paint_SelectImage(BlackImage);  
+  Paint_DrawLine(1, 38, 400, 38, BLACK, DOT_PIXEL_1X1, LINE_STYLE_SOLID);
+  Paint_DrawLine(1, 38, 1, 300, BLACK, DOT_PIXEL_1X1, LINE_STYLE_SOLID);
+  Paint_DrawLine(400, 38, 400, 300, BLACK, DOT_PIXEL_1X1, LINE_STYLE_SOLID);
+  Paint_DrawLine(1, 300, 400, 300, BLACK, DOT_PIXEL_1X1, LINE_STYLE_SOLID);
+  Paint_DrawLine(1, 70, 400, 70, BLACK, DOT_PIXEL_1X1, LINE_STYLE_SOLID);
+  Paint_DrawLine(285, 38, 285, 264, BLACK, DOT_PIXEL_1X1, LINE_STYLE_DOTTED);
+  Paint_DrawLine(122, 264, 400, 264, BLACK, DOT_PIXEL_1X1, LINE_STYLE_SOLID);
+  Paint_DrawLine(122, 264, 122, 300, BLACK, DOT_PIXEL_1X1, LINE_STYLE_SOLID);
+  String str1 = String(y) + " KW:" + String(GetWeekNumber(y, m, d)) + " Tag:" + String(GetDayOfYear(y, m, d));
+  Paint_DrawString_EN(130, 274, str1.c_str(), &Font20, WHITE, BLACK);
   
-  //for (int i = 0; i <= 1 ; i++)
-  //{
-  //  Paint_DrawLine(1, i * 37 + 34, 400, i * 37 + 34, BLACK, DOT_PIXEL_1X1, LINE_STYLE_SOLID);  
-  //}
-  Paint_DrawRectangle(1,38,400,38+32, BLACK, DOT_PIXEL_1X1, DRAW_FILL_EMPTY);
-  Paint_DrawRectangle(285,38,400,300, BLACK, DOT_PIXEL_1X1, DRAW_FILL_EMPTY);
-  Paint_DrawRectangle(1,38,285,300, BLACK, DOT_PIXEL_1X1, DRAW_FILL_EMPTY);
   EPD_4IN2B_V2_Display(BlackImage, RYImage);
   DEV_Delay_ms(2000);
   if (String(cfg.timerm) == "1")
