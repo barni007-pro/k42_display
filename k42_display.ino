@@ -20,13 +20,13 @@ WebServer server(80);
 // System definitions
 configData_t cfg;
 const int cfgStart = 0;                                                //EEPROM Startaddress
-const int EEPROM_Version = 8;
+const int EEPROM_Version = 9;
 const char *ssid = "IoT_Display";
 const char WeekDays[][3] = {"Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"}; // Abkuerzungen der Wochentage
 const String MonthName[] = {"Januar","Februar","Maerz","April","Mai","Juni","Juli","August","September","Oktober","Novembar","Dezember"};
 const String html1 ="<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"><title>Iot Display Configuration</title><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><link rel=\"stylesheet\" href=\"style.css\"></head><body><label for=\"show-menu\" class=\"show-menu\">Show Menu</label><input type=\"checkbox\" id=\"show-menu\"><ul id=\"menu\"><li><a href=\"index.html\">Home</a></li><li><a href=\"config.html\">Configuration</a></li><li><a href=\"wifi.html\">WIFI</a></li><li><a href=\"reboot.html\">Reboot</a></li></ul><br><br><br><fieldset>";
 const String HW_Version = "Display 001";                               //Hardware Version old
-const String SW_Version = "A1.00.04";                                  //Software Version
+const String SW_Version = "A1.00.05";                                  //Software Version
 
 //System Variablen
 UBYTE *BlackImage, *RYImage;                                           // Red or Yellow Image
@@ -36,6 +36,8 @@ int sleep_mode = 0;
 //Soft Timer1
 long wait_millis_1 = 60000 * 1;                                        //60 Min.
 long next_millis_1 = 0;                                                //Start sofort
+
+bool first_start = 0;
 
 void setup() 
 {
@@ -51,7 +53,10 @@ void setup()
     case 3  : Serial.println("Wakeup caused by timer"); break;
     case 4  : Serial.println("Wakeup caused by touchpad"); break;
     case 5  : Serial.println("Wakeup caused by ULP program"); break;
-    default : Serial.println("Wakeup was not caused by deep sleep"); break;
+    default : 
+      Serial.println("Wakeup was not caused by deep sleep");
+      first_start = 1;
+      break;
   }
   loadConfig();
   if (cfg.valid != EEPROM_Version)  //No valid data in the configuration therefore set the default parameters
@@ -90,6 +95,24 @@ void setup()
     Paint_DrawString_EN(0, 190, "http://192.168.4.1", &Font16, WHITE, BLACK);
     EPD_4IN2B_V2_Display(BlackImage, RYImage);
     DEV_Delay_ms(2000);
+  }
+  else
+  {
+    if (first_start == 1)
+    {
+    String ssid_str = String(WiFi.SSID());
+    const char *ssid_sta = ssid_str.c_str();
+    String webip_str = "http://" + WiFi.localIP().toString();
+    const char *webip_sta = webip_str.c_str();
+    Paint_SelectImage(BlackImage);
+    Paint_DrawString_EN(0, 60, "Connect to SSID:", &Font16, WHITE, BLACK);
+    Paint_DrawString_EN(0, 90, ssid_sta, &Font16, WHITE, BLACK);
+    Paint_SelectImage(RYImage);
+    Paint_DrawString_EN(0, 160, "Open this Link:", &Font16, WHITE, BLACK);
+    Paint_DrawString_EN(0, 190, webip_sta, &Font16, WHITE, BLACK);
+    EPD_4IN2B_V2_Display(BlackImage, RYImage);
+    DEV_Delay_ms(2000);
+    }
   }
   digitalWrite(LED, LOW);
 }
@@ -179,6 +202,7 @@ void test_eink()
 
 void draw_cal(uint16_t y, uint8_t m, uint8_t d)
 {
+  clear_image_buff();
   int h_pos = 0;
   
   Paint_SelectImage(BlackImage);
@@ -590,8 +614,8 @@ void handleConfig() // send wifi.html Web-Page
     //const String html5 ="\"><br><br></label> <label>MQTT_Server:<input type=\"text\" maxlength=\"32\" name=\"mqtt_server\" value=\"";
     //const String html6 ="\"><br><br></label> <label>MQTT_User:<input type=\"text\" maxlength=\"32\" name=\"mqtt_user\" value=\"";
     //const String html7 ="\"><br><br></label> <label>MQTT_Password:<input type=\"password\" maxlength=\"32\" name=\"mqtt_password\" value=\"";
-    const String html8 ="\"><br><br></label> <label>Holiday:<input type=\"text\" maxlength=\"513\" name=\"holiday\" value=\"";
-    const String html9 ="\"><br><br></label> <label>Birthday:<input type=\"text\" maxlength=\"513\" name=\"birthday\" value=\"";
+    const String html8 ="\"><br><br></label> <label>Holiday:<input type=\"text\" maxlength=\"512\" name=\"holiday\" value=\"";
+    const String html9 ="\"><br><br></label> <label>Birthday:<input type=\"text\" maxlength=\"1024\" name=\"birthday\" value=\"";
     const String html10 ="\"><br><br></label> <label>Timer_Mode:<input type=\"text\" maxlength=\"1\" name=\"timerm\" value=\"";
     const String html11 ="\"><br><br></label> <label>Interval:<input type=\"text\" maxlength=\"4\" name=\"interval\" value=\"";
     const String html12 ="\"><br><br><br></label><p style=\"text-align:center;\"><button type=\"submit\">Save</button></p><br><br></form> </fieldset> </body> </html>";
