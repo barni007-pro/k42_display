@@ -31,8 +31,13 @@ esp32-waveshare-epd siehe: https://www.waveshare.com/wiki/E-Paper_ESP32_Driver_B
 Die 3D-STL Druckdateien liegen auf: https://www.thingiverse.com/thing:5204499
 
 ## WEB-Interface:
+### Information:
 ![fertiges Gerät](web01.PNG) <br>
+### OTA Update:
 ![fertiges Gerät](web02.PNG) <br>
+### Konfiguration:
 ![fertiges Gerät](web03.PNG) <br>
+### WiFi Settings:
 ![fertiges Gerät](web04.PNG) <br>
+### Reboot System:
 ![fertiges Gerät](web05.PNG)
